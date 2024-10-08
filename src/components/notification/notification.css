@@ -1,0 +1,74 @@
+.bg {
+  background: url(https://nvis.frsc.gov.ng/vat-assets/images/bg-2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+}
+
+.modal-container {
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: #eee;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
+  border-bottom: 1px solid black;
+}
+
+.modal-body {
+  margin-top: 10px;
+}
+
+.modal-footer {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.close-btn {
+  background: transparent;
+  width: 30px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.action-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.action-btn:hover {
+  background-color: #0056b3;
+}
+
+.list {
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid rgba(22, 13, 20, 0.658);
+  cursor: pointer;
+}
+
+.desc {
+  width: 88%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
