@@ -3,15 +3,26 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./notification.css";
 
-function Notification(props) {
+function Notification() {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   // Fetch notifications from the API
   useEffect(() => {
-    setData(Object.entries(props.data)); // Convert the response to an array of [key, value]
-  }, [props]);
+    axios
+      .get(
+        `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
+      )
+      .then((res) => {
+        if(res.data) {
+          setData(Object.entries(res.data));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // Function to navigate back
   const goBack = () => {

@@ -29,7 +29,9 @@ function Dashboard() {
         `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
       )
       .then((res) => {
-        setVehicleData(Object.entries(res.data));
+        if(res?.data) {
+          setVehicleData(Object.entries(res.data));
+        }
       });
   }, []);
 
@@ -48,22 +50,31 @@ function Dashboard() {
 
   //filter function when the check owner is click and navigation to the detail page
   const searchFunc = () => {
-    let detail = [];
-    if (inputValue !== "") {
-      let value = inputValue.toUpperCase();
-      detail = vehicleData.filter(
-        ([key, entry]) => entry.vehicle_plate_number.toUpperCase() === value,
-      );
-      if (detail.length !== 0) {
+    if(vehicleData) {
+      let detail = [];
+      if (inputValue !== "") {
+        let value = inputValue.toUpperCase();
+        detail = vehicleData.filter(
+          ([key, entry]) => entry.vehicle_plate_number.toUpperCase() === value,
+        );
+        if (detail.length !== 0) {
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+            navigate(`/history/${detail[0][0]}`);
+          }, 5000);
+        }
+      }
+      //check if the detail length is equal to 0 to toggle the error mode
+      if (detail.length < 1) {
         setLoading(true);
         setTimeout(() => {
           setLoading(false);
-          navigate(`/history/${detail[0][0]}`);
+          setError(true);
         }, 5000);
       }
     }
-    //check if the detail length is equal to 0 to toggle the error mode
-    if (detail.length < 1) {
+    else {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
@@ -116,7 +127,7 @@ function Dashboard() {
                 {loading ? `Loading...` : `Check History`}
               </button>
             </div>
-            <span className="text-red-500">
+            <span className="text-red-300">
               No record found. Enter the correct vehicle plate number
             </span>
           </>

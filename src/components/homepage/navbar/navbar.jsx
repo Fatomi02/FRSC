@@ -60,10 +60,12 @@ function Navbar({ setter }) {
           `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
         )
         .then((res) => {
-          const unreadCount = Object.values(res.data).filter(
-            (fil) => !fil.read,
-          );
-          setNotifications(unreadCount.length);
+          if(res?.data) {
+            const unreadCount = Object.values(res?.data).filter(
+              (fil) => !fil.read,
+            );
+            setNotifications(unreadCount.length);
+          }
         })
         .catch((err) => {
           console.log(err);
