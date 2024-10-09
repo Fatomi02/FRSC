@@ -35,20 +35,9 @@
   width: 30px;
   font-size: 28px;
   cursor: pointer;
+  margin-top: -4px;
 }
 
-.action-btn {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.action-btn:hover {
-  background-color: #0056b3;
-}
 
 .list {
   padding: 16px;
@@ -61,7 +50,7 @@
 }
 
 .desc {
-  width: 88%;
+  width: 86%;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -71,4 +60,15 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+}
+
+.search {
+  width: 200px;
+  height: 30px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.search:focus {
+  outline: none;
 }

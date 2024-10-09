@@ -4,34 +4,46 @@ import axios from "axios";
 import "./notification.css";
 
 function Notification() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
 
+  // Fetch notifications from the API
   useEffect(() => {
     axios
       .get(
-        `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
+        `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`
       )
       .then((res) => {
-        setData(res.data);
+        setData(Object.entries(res.data)); // Convert the response to an array of [key, value]
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  // Function to navigate back
   const goBack = () => {
     navigate("/");
   };
 
+  // Function to navigate to the details page and mark the notification as read
   const goDetail = (id, detail) => {
     detail.read = true;
     axios.patch(
       `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC/${id}.json`,
-      detail,
+      detail
     );
     navigate(`/detail/${id}`);
   };
+
+  // Filter notifications based on search input
+  const filteredNotifications = data.filter(([key, entry]) =>
+    entry.vehicle_plate_number?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    entry.lastname?.toLowerCase().includes(searchValue.toLowerCase()) ||
+    entry.firstname?.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  console.log(filteredNotifications)
 
   return (
     <>
@@ -39,14 +51,26 @@ function Notification() {
         <div className="modal-container w-[100%] lg:w-[60%] mx-auto">
           <div className="modal-header">
             <h3 className="text-xl">Notification</h3>
-            <button className="close-btn" onClick={goBack}>
-              &times;
-            </button>
+            <div className="flex gap-2 items-center">
+              {/* Search input to filter notifications */}
+              <input
+                className="search"
+                value={searchValue}
+                type="search"
+                name="notification_search"
+                id="notification_search"
+                placeholder="Search notifications..."
+                onChange={(e) => setSearchValue(e.target.value)} // Update search value
+              />
+              <button className="close-btn" onClick={goBack}>
+                &times;
+              </button>
+            </div>
           </div>
           <div className="modal-body">
-            {data ? (
+            {data.length > 0 ? (
               <ul className="flex flex-col-reverse">
-                {Object?.entries(data).map(([key, entry]) => (
+                {filteredNotifications.map(([key, entry]) => (
                   <li
                     className="list"
                     key={key}
@@ -61,9 +85,9 @@ function Notification() {
                         {entry?.lastname} {entry?.firstname}
                       </span>{" "}
                       <br />
-                      <span>{entry?.description} </span>
+                      <span>{entry?.description}</span>
                     </div>
-                    <div>{entry?.time}</div>
+                    <div>{entry?.time} <br /> <small>12-oct-2024</small></div>
                   </li>
                 ))}
               </ul>
@@ -78,3 +102,4 @@ function Notification() {
 }
 
 export default Notification;
+
