@@ -1,0 +1,19 @@
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 10px;
+  height: 15px;
+  border-style: solid;
+  border-color: #eeeeee transparent transparent transparent;
+}
+
+.tooltip_div {
+  position: relative;
+}
+
+input:focus {
+  outline: none;
+}

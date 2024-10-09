@@ -5,11 +5,13 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
+import "./historyPage.css";
 import Footer from "../homepage/footer/footer";
 
-function Detail() {
+function HistoryPage() {
   //storing the data of the vehicle owner
   const [detail, setDetail] = useState();
+  const [allDetail, setAllDetail] = useState();
 
   const navigate = useNavigate();
   const idleTimeRef = useRef(null);
@@ -37,6 +39,20 @@ function Detail() {
         setDetail(res?.data);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
+      )
+      .then((res) => {
+        const all = Object.entries(res.data).filter(
+          ([key, value]) =>
+            value.vehicle_plate_number === detail?.vehicle_plate_number,
+        );
+        setAllDetail(all);
+      });
+  }, [detail]);
 
   return (
     <>
@@ -170,10 +186,24 @@ function Detail() {
         </div>
 
         <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43]">
-          Offense Description
+          Offense History Description
         </h2>
-        <div className="lg:w-[82%] w-[96%] justify-between m-auto mt-5 p-2 block lg:flex">
-          {detail?.description}
+        <div className="justify-between m-auto mt-5 p-2 block">
+          <ul className="list-disc flex flex-col-reverse">
+            {allDetail
+              ? allDetail.map(([key, value]) => {
+                  return (
+                    <li key={key} className="flex gap-20 history_list">
+                      {value?.description}{" "}
+                      <div key={`${key}_span`} className="block">
+                        {value?.time} <br />
+                        <small>{value?.date}</small>
+                      </div>
+                    </li>
+                  );
+                })
+              : ``}
+          </ul>
         </div>
       </div>
       <Footer />
@@ -181,4 +211,4 @@ function Detail() {
   );
 }
 
-export default Detail;
+export default HistoryPage;

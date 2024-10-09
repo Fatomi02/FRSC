@@ -3,24 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./notification.css";
 
-function Notification() {
+function Notification(props) {
   const [data, setData] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   // Fetch notifications from the API
   useEffect(() => {
-    axios
-      .get(
-        `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`
-      )
-      .then((res) => {
-        setData(Object.entries(res.data)); // Convert the response to an array of [key, value]
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    setData(Object.entries(props.data)); // Convert the response to an array of [key, value]
+  }, [props]);
 
   // Function to navigate back
   const goBack = () => {
@@ -32,18 +23,20 @@ function Notification() {
     detail.read = true;
     axios.patch(
       `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC/${id}.json`,
-      detail
+      detail,
     );
     navigate(`/detail/${id}`);
   };
 
   // Filter notifications based on search input
-  const filteredNotifications = data.filter(([key, entry]) =>
-    entry.vehicle_plate_number?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    entry.lastname?.toLowerCase().includes(searchValue.toLowerCase()) ||
-    entry.firstname?.toLowerCase().includes(searchValue.toLowerCase())
+  const filteredNotifications = data.filter(
+    ([key, entry]) =>
+      entry.vehicle_plate_number
+        ?.toLowerCase()
+        .includes(searchValue.toLowerCase()) ||
+      entry.lastname?.toLowerCase().includes(searchValue.toLowerCase()) ||
+      entry.firstname?.toLowerCase().includes(searchValue.toLowerCase()),
   );
-  console.log(filteredNotifications)
 
   return (
     <>
@@ -87,7 +80,9 @@ function Notification() {
                       <br />
                       <span>{entry?.description}</span>
                     </div>
-                    <div>{entry?.time} <br /> <small>12-oct-2024</small></div>
+                    <div className="w-[100px]">
+                      {entry?.time} <br /> <small>{entry?.date}</small>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -102,4 +97,3 @@ function Notification() {
 }
 
 export default Notification;
-

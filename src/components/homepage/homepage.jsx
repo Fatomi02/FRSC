@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useIdleTimer } from "react-idle-timer";
 import axios from "axios";
 import Navbar from "./navbar/navbar";
+import Dashboard from "./dashboard/dashboard";
 import Article from "./article/article";
 import Contact from "./contact/contact";
 import Footer from "./footer/footer";
 import ScrollToTop from "./scrolltotop";
 
-function Homepage() {
+function Homepage(props) {
   const navigate = useNavigate();
   const idleTimeRef = useRef(null);
 
@@ -21,7 +22,7 @@ function Homepage() {
 
   const idleTimer = useIdleTimer({
     ref: idleTimeRef,
-    timeout: 1000 * 60 * 5,
+    timeout: 1000 * 60 * 10,
     onIdle,
     debounce: 500,
   });
@@ -42,6 +43,7 @@ function Homepage() {
       ) : (
         <>
           <Navbar setter={dataChild} />
+          <Dashboard />
           <Article />
           <Contact />
           <ScrollToTop />
