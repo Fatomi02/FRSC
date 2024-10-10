@@ -74,7 +74,7 @@ function Navbar({ setter }) {
 
     fetchNotifications();
 
-    const interval = setInterval(fetchNotifications, 2000);
+    const interval = setInterval(fetchNotifications, 500);
 
     return () => clearInterval(interval);
   }, []);
