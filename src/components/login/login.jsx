@@ -115,7 +115,7 @@ function Login() {
                       value={emailValue}
                       onChange={(e) => handleEmailChange(e)}
                       className="w-full bg-inherit focus:border-blue-700 border-gray-600 border-[1px] mt-3 h-[40px] px-3"
-                      type="text"
+                      type="email"
                       placeholder="Your Email"
                       required
                     />
