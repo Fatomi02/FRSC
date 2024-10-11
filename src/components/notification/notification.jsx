@@ -19,13 +19,13 @@ function Notification() {
       .then((res) => {
         if(res.data) {
           setData(Object.entries(res.data));
-          setIsLoading(false)
         }
       })
       .catch((err) => {
         console.log(err);
       });
     }
+    setIsLoading(false)
 
 
       fetchNotifications();
@@ -83,7 +83,8 @@ function Notification() {
             </div>
           </div>
           <div className="modal-body">
-            {data.length > 0 ? (
+            { isLoading ?  <div className="p-[20px] text-xl">Loading Notification</div> : 
+            data.length > 0 ? (
               <ul className="flex flex-col-reverse">
                 {filteredNotifications.map(([key, entry]) => (
                   <li
@@ -108,8 +109,10 @@ function Notification() {
                   </li>
                 ))}
               </ul>
-            ) : isLoading ? <div className="p-[20px] text-xl">Loading Notifications ...</div> : <div className="p-[20px] text-xl">No notifications available</div> 
-            }
+            ) : (
+              <div className="p-[20px] text-xl">No notifications available</div>
+            )
+          }
           </div>
         </div>
       </div>
