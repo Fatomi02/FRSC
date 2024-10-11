@@ -74,7 +74,7 @@ function Navbar({ setter }) {
 
     fetchNotifications();
 
-    const interval = setInterval(fetchNotifications, 500);
+    const interval = setInterval(fetchNotifications, 100);
 
     return () => clearInterval(interval);
   }, []);
@@ -103,7 +103,7 @@ function Navbar({ setter }) {
   };
 
   const logOut = () => {
-    localStorage.setItem("auth", "");
+    localStorage.clear()
     navigate("/login");
   };
 

@@ -5,23 +5,34 @@ import "./notification.css";
 
 function Notification() {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   // Fetch notifications from the API
   useEffect(() => {
-    axios
+    const fetchNotifications = () => {
+      axios
       .get(
         `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC.json`,
       )
       .then((res) => {
         if(res.data) {
           setData(Object.entries(res.data));
+          setIsLoading(false)
         }
       })
       .catch((err) => {
         console.log(err);
       });
+    }
+
+
+      fetchNotifications();
+
+      const interval = setInterval(fetchNotifications, 1000);
+  
+      return () => clearInterval(interval);
   }, []);
 
   // Function to navigate back
@@ -91,15 +102,14 @@ function Notification() {
                       <br />
                       <span>{entry?.description}</span>
                     </div>
-                    <div className="w-[100px]">
+                    <div className="w-[120px]">
                       {entry?.time} <br /> <small>{entry?.date}</small>
                     </div>
                   </li>
                 ))}
               </ul>
-            ) : (
-              <div className="p-[20px] text-xl">No notifications available</div>
-            )}
+            ) : isLoading ? <div className="p-[20px] text-xl">Loading Notifications ...</div> : <div className="p-[20px] text-xl">No notifications available</div> 
+            }
           </div>
         </div>
       </div>

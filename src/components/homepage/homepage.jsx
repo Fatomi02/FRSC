@@ -20,6 +20,17 @@ function Homepage(props) {
     navigate("/login");
   };
 
+  useEffect(()=> {
+    const handleScrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+
+    handleScrollToTop();
+  }, [])
+
   const idleTimer = useIdleTimer({
     ref: idleTimeRef,
     timeout: 1000 * 60 * 10,
