@@ -87,7 +87,7 @@ function Notification() {
             </div>
           </div>
           <div className="modal-body">
-            { isLoading ?  <div className="p-[20px] text-xl">Loading Notification</div> : 
+            { isLoading ?  <div className="p-[20px] text-xl">Loading Notification ...</div> : 
             data.length > 0 ? (
               <ul className="flex flex-col-reverse">
                 {filteredNotifications.map(([key, entry]) => (
