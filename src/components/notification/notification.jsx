@@ -5,12 +5,13 @@ import "./notification.css";
 
 function Notification() {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState();
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
   // Fetch notifications from the API
   useEffect(() => {
+    setIsLoading(true)
     const fetchNotifications = () => {
       axios
       .get(
