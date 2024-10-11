@@ -5,7 +5,7 @@ import "./notification.css";
 
 function Notification() {
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
 
@@ -20,13 +20,16 @@ function Notification() {
       .then((res) => {
         if(res.data) {
           setData(Object.entries(res.data));
+          setIsLoading(false)
+        }
+        else {
+          setIsLoading(false)
         }
       })
       .catch((err) => {
         console.log(err);
       });
     }
-    setIsLoading(false)
 
 
       fetchNotifications();
