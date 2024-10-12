@@ -23,6 +23,8 @@
 
 .modal-body {
   margin-top: 10px;
+  overflow-y: scroll;
+  margin-bottom: 10px
 }
 
 .modal-footer {
