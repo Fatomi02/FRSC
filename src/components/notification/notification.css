@@ -9,8 +9,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   background: #eee;
-  height: 100vh;
-  overflow-y: scroll;
+  min-height: 100vh;
+  height: auto;
 }
 
 .modal-header {
@@ -23,8 +23,7 @@
 
 .modal-body {
   margin-top: 10px;
-  overflow-y: scroll;
-  margin-bottom: 10px
+  overflow-y: auto;
 }
 
 .modal-footer {
