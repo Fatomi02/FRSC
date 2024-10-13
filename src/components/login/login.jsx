@@ -150,6 +150,7 @@ function Login() {
                 </div>
                 <div className="w-[90%] mt-5 mx-auto">
                   <input
+                    type="submit"
                     onClick={login}
                     value="Log In"
                     className="w-full bg-inherit text-center cursor-pointer hover:bg-blue-800 hover:text-white border-blue-700 border-[1px] mt-5 h-[40px]"

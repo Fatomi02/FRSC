@@ -12,6 +12,7 @@ function HistoryPage() {
   //storing the data of the vehicle owner
   const [detail, setDetail] = useState();
   const [allDetail, setAllDetail] = useState();
+  const [totalFee, setTotalFee] = useState();
 
   const navigate = useNavigate();
   const idleTimeRef = useRef(null);
@@ -38,6 +39,7 @@ function HistoryPage() {
       .then((res) => {
         setDetail(res?.data);
       });
+
   }, []);
 
   useEffect(() => {
@@ -51,8 +53,35 @@ function HistoryPage() {
             value.vehicle_plate_number === detail?.vehicle_plate_number,
         );
         setAllDetail(all);
+        setTimeout(()=> {
+          calculateTotalOffenseFee(all)
+        }, 1000)
+
       });
+
+
   }, [detail]);
+
+  function calculateTotalOffenseFee(data) {
+    const totalOffenseFee = data.reduce((total, item) => {
+      // Access the object from the second element of the sub-array
+      const offenseFeeValue = item[1].offenseFee; // Note: using offenseFee key directly
+  
+      // Convert offenseFee to a number (it might be a string)
+      const offenseFee = typeof offenseFeeValue === 'string' 
+        ? parseFloat(offenseFeeValue) 
+        : offenseFeeValue;
+  
+      // Check if offenseFee is a valid number
+      if (!isNaN(offenseFee)) {
+        return total + offenseFee; // Accumulate the total
+      }
+      
+      return total; // If it's not a valid number, return the total unchanged
+    }, 0);
+  
+    setTotalFee(totalOffenseFee); // Set the state after calculating the total
+  }
 
   return (
     <>
@@ -183,6 +212,13 @@ function HistoryPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43] border-b-[1px] border-[#c42b2b]">
+         Total Offense Fee
+        </h2>
+        <div className="lg:w-[82%] w-[96%] gap-2 m-auto mt-5 p-2 block text-[16px]">
+          <b>Total Offense Fee: </b>#{totalFee} <br />
         </div>
 
         <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43]">

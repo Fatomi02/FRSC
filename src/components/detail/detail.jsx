@@ -10,6 +10,7 @@ import Footer from "../homepage/footer/footer";
 function Detail() {
   //storing the data of the vehicle owner
   const [detail, setDetail] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const idleTimeRef = useRef(null);
@@ -38,9 +39,26 @@ function Detail() {
       });
   }, []);
 
+  function increaseByTenPercent(price) {
+    setIsLoading(true)
+    const interest = Number(price) * 0.10;
+    const newPrice = Number(price) + interest;
+    
+    detail.offenseFee = newPrice;
+    axios.patch(
+      `https://vehicle-owner-database-default-rtdb.firebaseio.com/post-info-FRSC/${id}.json`,
+      detail,
+    );
+    
+    setTimeout(()=> {
+      window.location.reload();
+      setIsLoading(false)
+    }, 2000)
+  }
+
   return (
     <>
-      <section id="nav" className="bg-[#c42b2b] w-full lg:py-2 m-0">
+          <section id="nav" className="bg-[#c42b2b] w-full lg:py-2 m-0">
         <nav className="flex flex-row flex-nowrap justify-between align-middle w-full lg:w-[98%] xl:w-[88%] m-auto p-4">
           <h1
             id="logo"
@@ -50,6 +68,11 @@ function Detail() {
           </h1>
         </nav>
       </section>
+    {isLoading ? 
+      <div className="w-[100%] h-[84vh] bg-gray-300 flex items-center justify-center">
+        <span className="text-2xl">Increasing Offense Fee by 10% ....</span>
+      </div>
+      : 
       <div id="detail" className="w-full bg-[#EEEEEE] py-8">
         <h2 className="text-center text-2xl font-serif mb-5 text-[#201E43]">
           Owner's Information
@@ -70,7 +93,7 @@ function Detail() {
               Details
             </h2>
             <div className="block">
-              <h2 className="border-b-[1px] border-[#201E43] text-[#201E43] text-[18px] font-serif mb-3">
+              <h2 className="border-b-[1px] border-[#c42b2b] text-[#201E43] text-[18px] font-serif mb-3">
                 Name
               </h2>
               <div className="flex gap-4 mb-1">
@@ -92,7 +115,7 @@ function Detail() {
                 </span>
               </div>
 
-              <h2 className="border-b-[1px] border-[#201E43] text-[#201E43] text-[18px] font-serif my-4">
+              <h2 className="border-b-[1px] border-[#c42b2b] text-[#201E43] text-[18px] font-serif my-4">
                 Location
               </h2>
               <div className="flex gap-4 mb-1">
@@ -108,7 +131,7 @@ function Detail() {
                 </span>
               </div>
 
-              <h2 className="border-b-[1px] border-[#201E43] text-[#201E43] text-[18px] font-serif my-4">
+              <h2 className="border-b-[1px] border-[#c42b2b] text-[#201E43] text-[18px] font-serif my-4">
                 Date of Birth & Blood Group
               </h2>
               <div className="flex gap-4 mb-1">
@@ -124,7 +147,7 @@ function Detail() {
                 </span>
               </div>
 
-              <h2 className="border-b-[1px] border-[#201E43] text-[#201E43] text-[18px] font-serif my-4">
+              <h2 className="border-b-[1px] border-[#c42b2b] text-[#201E43] text-[18px] font-serif my-4">
                 Vehicle Information
               </h2>
               <div className="flex gap-4 mb-1">
@@ -169,13 +192,23 @@ function Detail() {
           </div>
         </div>
 
-        <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43]">
+        <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43] border-b-[1px] border-[#c42b2b]">
+          Offense Fee & Expected Due Date
+        </h2>
+        <div className="lg:w-[82%] w-[96%] gap-2 m-auto mt-5 p-2 block text-[16px]">
+          <b>Offense Fee: </b>#{detail?.offenseFee} <br />
+          <b>Expected Offense Due Date in (yyyy-mm-dd): </b>{detail?.dueDate}
+            <button className="bg-[#c42b2b] text-white py-[4px] px-4 block rounded-[16px] mt-6" onClick={()=> increaseByTenPercent(detail?.offenseFee)}>Due Delivery Date?. Increase Fee by 10%</button>
+        </div>
+
+        <h2 className="text-center text-2xl font-serif mt-5 text-[#201E43] border-b-[1px] border-[#c42b2b]">
           Offense Description
         </h2>
         <div className="lg:w-[82%] w-[96%] justify-between m-auto mt-5 p-2 block lg:flex">
-          {detail?.description}
+            {detail?.description}
         </div>
       </div>
+  }
       <Footer />
     </>
   );
